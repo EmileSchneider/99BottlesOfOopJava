@@ -2,36 +2,61 @@ package org.example;
 
 public class Bottles {
     public String verse(int verseNumber) {
-        if(verseNumber == 0) {
-            return """
-                    No more bottles of beer on the wall, no more bottles of beer.
-                    Go to the store and buy some more, 99 bottles of beer on the wall.
-                    """;
-        }
-        if (verseNumber == 1) {
-            return """
-                    1 bottle of beer on the wall, 1 bottle of beer.
-                    Take it down and pass it around, no more bottles of beer on the wall.
-                    """;
-        }
-        if (verseNumber == 2) {
-            return """
-                    2 bottles of beer on the wall, 2 bottles of beer.
-                    Take one down and pass it around, 1 bottle of beer on the wall.
-                    """;
-        }
         return String.format("""
-                %s bottles of beer on the wall, %s bottles of beer.
-                Take one down and pass it around, %s bottles of beer on the wall.
-                """, verseNumber, verseNumber, verseNumber-1);
+                        %s %s of beer on the wall, %s %s of beer.
+                        %s, %s %s of beer on the wall.
+                        """,
+                amount(verseNumber).substring(0, 1).toUpperCase() + amount(verseNumber).substring(1), container(verseNumber), amount(verseNumber), container(verseNumber),
+                action(verseNumber), amount(successor(verseNumber)), container(successor(verseNumber)));
     }
 
     public String song() {
         StringBuilder builder = new StringBuilder();
-        for(int i = 99; i > 0; i--) {
+
+        for (int i = 99; i > 0; i--) {
             builder.append(this.verse(i));
         }
 
         return builder.toString();
     }
+
+    private String container(int number) {
+        if (number == 1) {
+            return "bottle";
+        } else {
+            return "bottles";
+        }
+    }
+
+    private String pronoun(int number) {
+        if (number == 1) {
+            return "it";
+        } else {
+            return "one";
+        }
+    }
+
+    private String amount(int number) {
+        if (number == 0) {
+            return "no more";
+        } else {
+            return String.valueOf(number);
+        }
+    }
+
+    private int successor(int number) {
+        if (number == 0) {
+            return 99;
+        } else {
+            return number - 1;
+        }
+    }
+
+    private String action(int number) {
+        if (number == 0) {
+            return "Go to the store and buy some more";
+        }
+        return String.format("Take %s down and pass it around", pronoun(number));
+    }
+
 }
